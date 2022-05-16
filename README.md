@@ -1,2 +1,2 @@
 # CSharp for Games
-Curso de C# para videojuegos de platzi
+Curso de C# para videojuegos de platzi.
