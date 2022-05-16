@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO Continuar con las clases 18 - 20
-
 public enum GameState
 {
     menu, 
@@ -35,25 +33,27 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetButtonDown("Submit")){
+            StartGame();
+        }
     }
 
     // Metodo para iniciar el juego
     public void StartGame()
     {
-
+        SetGameState(GameState.inGame);
     }
 
     // Metodo para finalizar el juego cuando el personaje muere
     public void GameOver()
     {
-
+        SetGameState(GameState.gameOver);
     }
 
     // Metodo para regresar al menu
     public void BackToMenu()
     {
-
+        SetGameState(GameState.menu);
     }
 
     // Estado del juego usando enumeradores

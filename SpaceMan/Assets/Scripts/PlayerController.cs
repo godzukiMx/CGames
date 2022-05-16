@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   // Detecta si se presiono la tecla para saltar y manda llamar el metodo de salto
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Jump"))
         {
             Jump();
         }
@@ -57,28 +57,34 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update fijo, no se llama cada frame
-     void FixedUpdate()
-    {   // Detecta el movimiento en base al eje indicado, agregando velocidad para mover al personaje
-        rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); 
+     void FixedUpdate()    
+    {   if(GameManager.sharedInstance.currentGameState == GameState.inGame)
+        {// Detecta el movimiento en base al eje indicado, agregando velocidad para mover al personaje
+            rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); 
 
-        // Identifica hacia donde esta volteando el personaje y grira horizontalmente el sprite
-        if (Input.GetAxis("Horizontal") < 0)
-        {
-            render.flipX = true;
-        }
-        if (Input.GetAxis("Horizontal") > 0)
-        {
-            render.flipX = false;
+            // Identifica hacia donde esta volteando el personaje y grira horizontalmente el sprite
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                render.flipX = true;
+            }
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                render.flipX = false;
+            }
+        }else{ // Si no se esta dentro de la partida
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
         }
     }
 
     // Función  para realizar el salto
     void Jump()
     {
-        if(isTouchingTheGround())
-        {
-        // Agregamos fuerzas vertical e impulso
-        rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        if(GameManager.sharedInstance.currentGameState == GameState.inGame){
+            if(isTouchingTheGround())
+            {
+            // Agregamos fuerzas vertical e impulso
+            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
         }
     }
 
@@ -89,13 +95,8 @@ public class PlayerController : MonoBehaviour
                                   Vector2.down,
                                   1.5f,
                                   groundMask)){
-                // TODO Programar logica de contacto con el suelo
-                //animator.enabled = true;
-                GameManager.sharedInstance.currentGameState = GameState.inGame;
                 return true;                        
             }else{
-                // TODO Programar logica de no contacto con el suelo
-                //animator.enabled = false;
                 return false;
             }
         }
