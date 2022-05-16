@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidBody;
     Animator animator;
     SpriteRenderer render;
+    Vector3 startPosition;
     
     const string STATE_ALIVE =  "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
@@ -36,10 +37,23 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startPosition = this.transform.position;
+    }
+    // Inicio y reinicio del juego
+    public void StarGame(){
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
         animator.SetBool(IS_STATIC, false);
+
+        Invoke("RestardPosition", 0.2f);
+
     }
+
+    void RestardPosition(){
+        this.transform.position = startPosition;
+        this.rigidBody.velocity = Vector2.zero;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -111,5 +125,10 @@ public class PlayerController : MonoBehaviour
             {
                 return false;
             }
+        }
+
+        public void Die(){
+            this.animator.SetBool(STATE_ALIVE, false);
+            GameManager.sharedInstance.GameOver();
         }
 }
