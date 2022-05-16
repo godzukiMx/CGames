@@ -1,0 +1,104 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    //Variables del movimiento del personaje
+    public float jumpForce = 7f;
+    public float runningSpeed = 2f;
+    Rigidbody2D rigidBody;
+    Animator animator;
+    SpriteRenderer render;
+    
+    const string STATE_ALIVE =  "isAlive";
+    const string STATE_ON_THE_GROUND = "isOnTheGround";
+    public LayerMask groundMask;
+
+    void Awake() 
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        render = GetComponent<SpriteRenderer>();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        animator.SetBool(STATE_ALIVE, true);
+        animator.SetBool(STATE_ON_THE_GROUND, true);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+            Jump();
+        }
+
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            render.flipX = false;
+            Right();
+        }
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            render.flipX = true;
+            Left();
+        }
+
+        animator.SetBool(STATE_ON_THE_GROUND, isTouchingTheGround());
+
+        Debug.DrawRay(this.transform.position, Vector2.down * 1.5f, Color.red);
+    }
+
+    // void FixedUpdate()
+    //{
+    //    if(rigidBody.velocity.x < runningSpeed){
+    //       rigidBody.velocity = new Vector2(runningSpeed, rigidBody.velocity.y);
+    //    }    
+    //}
+
+    // Función  para realizar el salto
+    void Jump()
+    {
+        if(isTouchingTheGround())
+        {
+        // Agregamos fuerzas vertical e impulso
+        rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    void Right()
+    {
+        if (rigidBody.velocity.x < runningSpeed)
+        {
+            rigidBody.velocity = new Vector2(runningSpeed, rigidBody.velocity.y);
+        }
+    }
+    void Left()
+    {
+        if (rigidBody.velocity.x < runningSpeed)
+        {
+            rigidBody.velocity = new Vector2(-runningSpeed, rigidBody.velocity.y);
+        }
+    }
+    
+        // Indica si el personaje toca o no el suelo
+        bool isTouchingTheGround()
+        {
+            if (Physics2D.Raycast(this.transform.position,
+                                  Vector2.down,
+                                  1.5f,
+                                  groundMask)){
+                // TODO Programar logica de contacto con el suelo
+                //animator.enabled = true;
+                return true;        
+            }else{
+                // TODO Programar logica de no contacto con el suelo
+                //animator.enabled = false;
+                return false;
+            }
+        }
+}
