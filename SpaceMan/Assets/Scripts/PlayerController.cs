@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public void StarGame(){
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
-        animator.SetBool(IS_STATIC, false);
+        animator.SetBool(IS_STATIC, true);
 
         Invoke("RestardPosition", 0.2f);
 
@@ -74,8 +74,9 @@ public class PlayerController : MonoBehaviour
      void FixedUpdate()    
     {   if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {// Detecta el movimiento en base al eje indicado, agregando velocidad para mover al personaje
-            rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); 
-
+            rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y);
+            rigidBody.gravityScale = 1; 
+            
             // Identifica hacia donde esta volteando el personaje y grira horizontalmente el sprite
             if (Input.GetAxis("Horizontal") < 0)
             {
@@ -87,6 +88,7 @@ public class PlayerController : MonoBehaviour
             }
         }else{ // Si no se esta dentro de la partida
             rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+            rigidBody.gravityScale = 0;
         }
     }
 
