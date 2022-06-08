@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
         }
         else if (newGameState == GameState.inGame)
         {
+            LevelManager.sharedInstance.RemoveAllLevelBlocks();
+            LevelManager.sharedInstance.GenerateInitialBlocks();
             controller.StarGame();
             // TODO: Preparar la escena para jugar
         }

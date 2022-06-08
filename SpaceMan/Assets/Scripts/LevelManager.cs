@@ -62,17 +62,21 @@ public class LevelManager : MonoBehaviour
 
     //Remover bloques ya usados
     public void RemoveLevelBlock(){
-
+        LevelBlock oldBlock = currentLevelBlocks[0];
+        currentLevelBlocks.Remove(oldBlock);
+        Destroy(oldBlock.gameObject);
     }
 
     // Remover bloques al morir, para reiniciar la partida
     public void RemoveAllLevelBlocks(){
-
+        while(currentLevelBlocks.Count>0){
+            RemoveLevelBlock();
+        }
     }
 
     //Metodo para generar el primer bloque
     public void GenerateInitialBlocks(){
-        for (int i = 0; i < 20; i++ ){
+        for (int i = 0; i < 3; i++ ){
             AddLevelBLock();
         }
     }
