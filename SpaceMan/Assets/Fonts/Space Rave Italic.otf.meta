@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 1c6d777036877d440b5aba764b513f8b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Space Rave
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9126a506d0390bb4689cbccc506ef1ba, type: 3}
+  - {fileID: 12800000, guid: b454d49f1c106114eac1c620766ff409, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
