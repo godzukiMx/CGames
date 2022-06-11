@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    public Canvas menuCanvas;
+    public Canvas menuCanvas, gameCanvas, gameOverCanvas;
     public static MenuManager sharedInstance;
 
     private void Awake()
@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    // Metodos para mostrar y ocultar el menu principal
     public void ShowMainMenu()
     {
         menuCanvas.enabled = true;
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour
         menuCanvas.enabled = false;
     }
 
+    // Metodo para salir del juego al rpesionar el boton "Quit" del menu principal
     public void ExitGame()
     {
         #if UNITY_EDITOR
@@ -42,5 +44,28 @@ public class MenuManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+
+    // Metodos para mostrar y ocultar el Score, Top Score y CoinCount
+    public void ShowScoreUi()
+    {
+        gameCanvas.enabled = true;
+    }
+
+    public void HideScoreUi()
+    {
+        gameCanvas.enabled = false;
+    }
+
+
+    // Metodos para mostrar y ocultar el menu de GameOver
+    public void ShowGameOverMenu()
+    {
+        gameOverCanvas.enabled = true;
+    }
+
+    public void HideGameOverMenu()
+    {
+        gameOverCanvas.enabled = false;
     }
 }

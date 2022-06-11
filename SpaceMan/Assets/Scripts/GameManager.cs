@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find("Player").GetComponent<PlayerController>();
+        MenuManager.sharedInstance.HideScoreUi();
+        MenuManager.sharedInstance.HideGameOverMenu();
     }
 
     // Update is called once per frame
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour
         if (newGameState == GameState.menu)
         {
             MenuManager.sharedInstance.ShowMainMenu();
+            MenuManager.sharedInstance.HideScoreUi();
+            MenuManager.sharedInstance.HideGameOverMenu();
         }
         else if (newGameState == GameState.inGame)
         {
@@ -72,13 +76,14 @@ public class GameManager : MonoBehaviour
             controller.StarGame();
 
             MenuManager.sharedInstance.HideMainMenu();
-
-            // TODO: Preparar la escena para jugar
+            MenuManager.sharedInstance.ShowScoreUi();
+            MenuManager.sharedInstance.HideGameOverMenu();
         }
         else if (newGameState == GameState.gameOver)
         {
-            // TODO: preparar el juego para el game over
-            MenuManager.sharedInstance.ShowMainMenu();
+            MenuManager.sharedInstance.HideMainMenu();
+            MenuManager.sharedInstance.HideScoreUi();
+            MenuManager.sharedInstance.ShowGameOverMenu();
         }
 
         this.currentGameState = newGameState;
