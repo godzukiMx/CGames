@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3813282964464137876}
   - component: {fileID: 3813282964464137879}
-  - component: {fileID: 3813282964464137878}
+  - component: {fileID: -1498708672737571372}
   m_Layer: 6
   m_Name: rock-L
   m_TagString: Untagged
@@ -85,16 +85,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!65 &3813282964464137878
-BoxCollider:
+--- !u!61 &-1498708672737571372
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3813282964464137873}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0019362569, y: 0.017426252}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.27, y: 2.2904212}
+    newSize: {x: 1.27, y: 2.2904212}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2302525, y: 2.2029765, z: 0.2}
-  m_Center: {x: 0.0039747953, y: -0.019873977, z: 0}
+  m_Size: {x: 1.2119128, y: 2.201354}
+  m_EdgeRadius: 0
