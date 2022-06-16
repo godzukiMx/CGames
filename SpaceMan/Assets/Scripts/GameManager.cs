@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.menu);
     }
 
-    // Estado del juego usando enumeradores
+    // Estado del juego usando enumeradores, cada metodo muestra y esconde canvas para mostrar u ocultar menus
     private void SetGameState(GameState newGameState)
     {
         if (newGameState == GameState.menu)
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 
         this.currentGameState = newGameState;
     }
-
+    // Metodo para llevar el conteo de cuantos item recolectables a tomado el jugador
     public void CollectObject(Collectable collectable)
     {
         collectedObject += collectable.value;

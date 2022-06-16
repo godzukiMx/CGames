@@ -16,12 +16,17 @@ public class Collectable : MonoBehaviour
     private CircleCollider2D itemCollider;
     bool hasBeenCollected = false;
     public int value = 1;
-
+    GameObject player;
 
     void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
         itemCollider = GetComponent<CircleCollider2D>();
+    }
+
+    void Start()
+    {
+        player = GameObject.Find("Player");
     }
 
     void Show()
@@ -38,17 +43,17 @@ public class Collectable : MonoBehaviour
     }
 
     void Collect()
-    {
+    {   // Esconde el item que se a recolectado
         Hide();
         hasBeenCollected = true;
 
         switch(this.type)
         {
             case CollectableType.healthPotion:
-                //
+                player.GetComponent<PlayerController>().CollectHealth(this.value);
                 break;
             case CollectableType.manaPotion:
-                //
+                player.GetComponent<PlayerController>().CollectMana(this.value);
                 break;
             case CollectableType.coin:
                 GameManager.sharedInstance.CollectObject(this);
@@ -56,7 +61,7 @@ public class Collectable : MonoBehaviour
             
         }
     }
-
+    // Detecta cuando el jugador toma un objeto
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")

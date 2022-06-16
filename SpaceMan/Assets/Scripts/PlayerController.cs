@@ -19,8 +19,10 @@ public class PlayerController : MonoBehaviour
     
     const string STATE_ALIVE =  "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
-
     const string IS_STATIC = "isStatic";
+
+    private int healthPoints, manaPoints;
+    public const int INITIAL_HEALTH = 100, INITIAL_MANA = 15, MAX_HEALT = 200, MAX_MANA = 30, MIN_HEALTH = 10, MIN_MANA = 0;
     public LayerMask groundMask;
 
     void Awake() 
@@ -44,6 +46,9 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
         animator.SetBool(IS_STATIC, true);
+
+        healthPoints = INITIAL_HEALTH;
+        manaPoints = INITIAL_MANA;
 
         Invoke("RestardPosition", 0.2f);
 
@@ -131,9 +136,41 @@ public class PlayerController : MonoBehaviour
                 return false;
             }
         }
-
+        // detecta si el jugador muere y cambia el estado de juego a gameOver
         public void Die(){
             this.animator.SetBool(STATE_ALIVE, false);
             GameManager.sharedInstance.GameOver();
+        }
+
+        // Metodo para indicar si se recolecto vida y toparla al maximo de esta
+        public void CollectHealth (int points)
+        {
+            this.healthPoints += points;
+            if(this.healthPoints >= MAX_HEALT)
+            {
+                this.healthPoints = MAX_HEALT;
+            }
+        }
+
+        // Metodo para indicar si se recolecto mana y toparlo al maximo de este
+        public void CollectMana(int points)
+        {
+            this.manaPoints += points;
+            if(this.manaPoints >= MAX_MANA)
+            {
+                this.manaPoints = MAX_MANA;
+            }
+        }
+
+        // Metodo para llamar y mostrar en pantalla cuanta vida tiene el jugador
+        public int GetHealth()
+        {
+            return healthPoints;
+        }
+
+        // Metodo para llamar y mostrar en pantalla cuantO mana tiene el jugador
+        public int GetMana()
+        {
+            return manaPoints;
         }
 }
