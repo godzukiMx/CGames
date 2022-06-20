@@ -8,9 +8,12 @@ public class GameView : MonoBehaviour
 {
     public Text scoreText, coinsText, maxScoreText;
     // Start is called before the first frame update
+
+    private PlayerController controller;
+
     void Start()
     {
-        
+        controller = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -19,8 +22,8 @@ public class GameView : MonoBehaviour
         if(GameManager.sharedInstance.currentGameState == GameState.inGame)
         {   // Se lleva el conteo de los items recolectados, se muestra en el UI del juego
             int coins = GameManager.sharedInstance.collectedObject;
-            float score = 0;
-            float maxScore = 0;
+            float score = controller.GetTravelledDistance();
+            float maxScore = PlayerPrefs.GetFloat("maxscore", 0);
 
             coinsText.text = coins.ToString();
             scoreText.text = "Score: " + score.ToString("f1");

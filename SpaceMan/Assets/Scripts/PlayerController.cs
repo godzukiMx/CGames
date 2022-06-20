@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Investigar sobre singleton con multijugadores.
-
 public class PlayerController : MonoBehaviour
 {
 
@@ -23,6 +21,10 @@ public class PlayerController : MonoBehaviour
 
     private int healthPoints, manaPoints;
     public const int INITIAL_HEALTH = 100, INITIAL_MANA = 15, MAX_HEALT = 200, MAX_MANA = 30, MIN_HEALTH = 10, MIN_MANA = 0;
+
+    public const int SUPERSPEED_COST = 3;
+    public const float SUPERSPEED_FORCE = 1.5f;
+
     public LayerMask groundMask;
 
     void Awake() 
@@ -71,6 +73,16 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
+        if (Input.GetButtonDown("Speed") && isTouchingTheGround() && manaPoints>=SUPERSPEED_COST)
+        {
+            Run(true);
+        }
+
+        if (Input.GetButtonUp("Speed"))
+        {
+            Run(false);
+        }
+
         // CAmbios booleanos para indicar si esta en el suelo o si esta estatico y cambiar las animaciones necesarias
         animator.SetBool(STATE_ON_THE_GROUND, isTouchingTheGround());
         animator.SetBool(IS_STATIC, isStatic());
@@ -112,6 +124,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Run(bool superSpeed)
+    {
+        if(superSpeed && isTouchingTheGround() &&manaPoints>=SUPERSPEED_COST)
+        {
+            InvokeRepeating("reduceMana", 0.1f, 1.0f);
+            runningSpeed *= SUPERSPEED_FORCE;
+        }
+        else
+        {
+            runningSpeed = 4f;
+            CancelInvoke("reduceMana");
+        }
+        
+    }
+
+    void reduceMana()
+    {
+        manaPoints -= SUPERSPEED_COST;
+    }
+
         // Indica si el personaje toca o no el suelo
         bool isTouchingTheGround()
         {
@@ -138,6 +170,13 @@ public class PlayerController : MonoBehaviour
         }
         // detecta si el jugador muere y cambia el estado de juego a gameOver
         public void Die(){
+            float travelledDistance = GetTravelledDistance();
+            float previusMaxDistance = PlayerPrefs.GetFloat("maxscore", 0f);
+            if (travelledDistance > previusMaxDistance)
+            {
+                PlayerPrefs.SetFloat("maxscore", travelledDistance);
+            }
+
             this.animator.SetBool(STATE_ALIVE, false);
             GameManager.sharedInstance.GameOver();
         }
@@ -172,5 +211,11 @@ public class PlayerController : MonoBehaviour
         public int GetMana()
         {
             return manaPoints;
+        }
+
+        // Metodo para llevar la cuenta de la distancia recorrida
+        public float GetTravelledDistance()
+        {
+            return this.transform.position.x - startPosition.x;
         }
 }
