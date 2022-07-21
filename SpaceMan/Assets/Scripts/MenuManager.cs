@@ -49,6 +49,7 @@ public class MenuManager : MonoBehaviour
     // Metodos para mostrar y ocultar el Score, Top Score y CoinCount
     public void ShowScoreUi()
     {
+        
         gameCanvas.enabled = true;
     }
 

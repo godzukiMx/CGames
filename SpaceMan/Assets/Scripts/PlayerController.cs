@@ -5,15 +5,18 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public static PlayerController controllerInstace;
+    public PlayerController controllerInstace;
 
     //Variables del movimiento del personaje
     public float jumpForce = 7f;
     public float runningSpeed = 4f;
+    private float lastDistance;
+    private float distance;
     Rigidbody2D rigidBody;
     Animator animator;
     SpriteRenderer render;
     Vector3 startPosition;
+    private GameView scoreTextReset;
     
     const string STATE_ALIVE =  "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         startPosition = this.transform.position;
+        
     }
     // Inicio y reinicio del juego
     public void StarGame(){
@@ -52,7 +56,9 @@ public class PlayerController : MonoBehaviour
         healthPoints = INITIAL_HEALTH;
         manaPoints = INITIAL_MANA;
 
-        Invoke("RestardPosition", 0.2f);
+        lastDistance = 0F;
+
+        Invoke("RestardPosition", 0.4f);
 
     }
 
@@ -63,7 +69,6 @@ public class PlayerController : MonoBehaviour
         GameObject mainCamera = GameObject.Find("Main Camera");
         mainCamera.GetComponent<CameraFollow>().ResetCameraPosition();
     }
-
 
     // Update is called once per frame
     void Update()
@@ -215,7 +220,17 @@ public class PlayerController : MonoBehaviour
 
         // Metodo para llevar la cuenta de la distancia recorrida
         public float GetTravelledDistance()
-        {
-            return this.transform.position.x - startPosition.x;
+        {   
+            //TODO: revisar por que no se reinicia el score al reiniciar la partida          
+            distance = this.transform.position.x - startPosition.x;
+
+            if(lastDistance < distance)
+            {
+                lastDistance = distance;
+            }
+
+            return lastDistance;
         }
+
+        
 }

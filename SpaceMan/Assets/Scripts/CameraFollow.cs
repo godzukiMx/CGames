@@ -32,7 +32,7 @@ public class CameraFollow : MonoBehaviour
     void MoveCamera(bool smooth){
         Vector3 destination = new Vector3(
             target.position.x -offset.x,
-            offset.y,
+            offset.y+1.5f,
             offset.z
         );
 

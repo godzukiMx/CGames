@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static GameManager sharedInstance;
 
     private PlayerController controller;
+    private GameView scoreTextReset;
 
     public int collectedObject = 0;
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find("Player").GetComponent<PlayerController>();
+        scoreTextReset = GameObject.Find("Game Canvas").GetComponent<GameView>();
         MenuManager.sharedInstance.HideScoreUi();
         MenuManager.sharedInstance.HideGameOverMenu();
     }
@@ -75,12 +77,16 @@ public class GameManager : MonoBehaviour
         {
             LevelManager.sharedInstance.RemoveAllLevelBlocks();
             LevelManager.sharedInstance.GenerateInitialBlocks();
-            controller.StarGame();
 
             MenuManager.sharedInstance.HideMainMenu();
             MenuManager.sharedInstance.ShowScoreUi();
             MenuManager.sharedInstance.HideGameOverMenu();
+            
+            collectedObject = 0;
+            scoreTextReset.scoreText.text = "Hello Motherfucker";
+            controller.StarGame();
         }
+
         else if (newGameState == GameState.gameOver)
         {
             MenuManager.sharedInstance.HideMainMenu();
